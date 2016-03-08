@@ -18,12 +18,21 @@ import com.tw.bill.rule.BaseBillRule;
 
 public class MyCore {
 
+	private static MyCore mc;
+	private MyCore(){}
+	
+	public static MyCore getMyCore(){
+		if(mc == null){
+			mc = new MyCore();
+		}
+		return mc;
+	}
 	/**
 	 * 实际执行时的入口位置
 	 * @param bill
 	 * @param rules
 	 */
-	public void action(GoodsBill bill,List<RuleInfo> rules){
+	public GoodsBillWithPrice action(GoodsBill bill,List<RuleInfo> rules){
 		
 		//先对规则排序
 		Collections.sort(rules,new Comparator<RuleInfo>() {
@@ -52,13 +61,14 @@ public class MyCore {
 			}
 		}
 		printMessage(gbwp);
+		return gbwp;
 	}
 	/**
-	 * 打印最后的凭条
+	 * 服务端打印最后的凭条
 	 * @param gbwp
 	 */
 	private void printMessage(GoodsBillWithPrice gbwp) {
-		System.out.println(gbwp.printMessage());
+		System.out.println(gbwp.getPrintMessage());
 	}
 
 	/**

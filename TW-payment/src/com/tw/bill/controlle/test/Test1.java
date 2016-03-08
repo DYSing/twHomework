@@ -11,6 +11,7 @@ import com.tw.bill.GoodsBill;
 import com.tw.bill.GoodsBillWithPrice;
 import com.tw.bill.IBillRule;
 import com.tw.bill.RuleInfo;
+import com.tw.bill.constant.BillConstant.GoodsType;
 import com.tw.bill.rule.BaseBillRule;
 import com.tw.billcontroller.MyCore;
 
@@ -27,14 +28,14 @@ public class Test1 {
 		System.out.println(b.getRuleInfo());
 		GoodsBill bill = new GoodsBill();
 		HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
-		Goods g = new Goods("ID1","商品1", 1, 9,Goods.GoodsType.G);
+		Goods g = new Goods("ID1","商品1", 1, 9,GoodsType.G);
 		goodsMap.put(g.getgId(), g);
 		bill.setGoodsMap(goodsMap);
 		GoodsBillWithPrice gbwp = b.getPriceByRule(bill);
 		System.out.println(gbwp.getTotalAmount());
 		System.out.println(gbwp.toString());
 		System.out.println("*******打印凭条*****************");
-		gbwp.printMessage();
+		System.out.println(gbwp.getPrintMessage());
 		System.out.println("=========结束测试折扣规则--基本规则-直接调用==========");
 	}
 	
@@ -42,12 +43,12 @@ public class Test1 {
 		System.out.println("=========开始测试折扣规则--基本规则-LoadJar==========");
 		GoodsBill bill = new GoodsBill();
 		HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
-		Goods g1 = new Goods("ID1","商品1", 1, 9,Goods.GoodsType.G);
-		Goods g2 = new Goods("ID2","商品2", 2, 1,Goods.GoodsType.G);
+		Goods g1 = new Goods("ID1","商品1", 1, 9,GoodsType.G);
+		Goods g2 = new Goods("ID2","商品2", 2, 1,GoodsType.G);
 		goodsMap.put(g1.getgId(), g1);
 		goodsMap.put(g2.getgId(), g2);
 		bill.setGoodsMap(goodsMap);
-		MyCore mc = new MyCore();
+		MyCore mc = MyCore.getMyCore();
 		String[] ruls ={"ID1","ID2","ID5","ID6"}; 
 		RuleInfo ruleInfo = new RuleInfo("BaseRule.jar", "rules", "com.tw.bill.rule.BaseBillRule",1,ruls);
 		IBillRule br = mc.loadRule(ruleInfo);
@@ -90,12 +91,12 @@ public class Test1 {
 		System.out.println("=========开始测试折扣规则--买二赠一--LoadJar==========");
 		GoodsBill bill = new GoodsBill();
 		HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
-		Goods g1 = new Goods("ID1","商品1", 3, 9,Goods.GoodsType.G);
-		Goods g2 = new Goods("ID2","商品2", 2, 1,Goods.GoodsType.G);
+		Goods g1 = new Goods("ID1","商品1", 3, 9,GoodsType.G);
+		Goods g2 = new Goods("ID2","商品2", 2, 1,GoodsType.G);
 		goodsMap.put(g1.getgId(), g1);
 		goodsMap.put(g2.getgId(), g2);
 		bill.setGoodsMap(goodsMap);
-		MyCore mc = new MyCore();
+		MyCore mc = MyCore.getMyCore();
 		String[] ruls ={"ID1","ID2","ID5","ID6"}; 
 		RuleInfo ruleInfo = new RuleInfo("Ruls_Buy3Free1.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1",1,ruls);
 		List<RuleInfo> rules = new ArrayList<RuleInfo>();
@@ -110,12 +111,12 @@ public class Test1 {
 		System.out.println("=========开始测试折扣规则--买二赠一和95折--LoadJar==========");
 		GoodsBill bill = new GoodsBill();
 		HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
-		Goods g1 = new Goods("ID1","商品1", 3, 9,Goods.GoodsType.G);
-		Goods g2 = new Goods("ID2","商品2", 2, 1,Goods.GoodsType.G);
+		Goods g1 = new Goods("ID1","商品1", 3, 9,GoodsType.G);
+		Goods g2 = new Goods("ID2","商品2", 2, 1,GoodsType.G);
 		goodsMap.put(g1.getgId(), g1);
 		goodsMap.put(g2.getgId(), g2);
 		bill.setGoodsMap(goodsMap);
-		MyCore mc = new MyCore();
+		MyCore mc = MyCore.getMyCore();
 		String[] ruls1 ={"ID1"}; 
 		RuleInfo ruleInfo1 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1",1,ruls1);
 		String[] ruls2 ={"ID2"}; 

@@ -1,32 +1,14 @@
 package com.tw.bill;
+
+import com.tw.bill.constant.BillConstant.GoodsType;
+
 /**
  * 商品信息类
  * @author DY'sing
  *
  */
 public class Goods {
-	public enum GoodsType{
-		/**
-		 * 瓶
-		 */
-        P("瓶"), 
-        /**
-         * 个
-         */
-        G("个"),
-        /**
-         * 斤
-         */
-        J("斤");
-        private final String value;
-        GoodsType(String value) {
-            this.value = value;
-        }
-        
-        public String getValue() {
-            return value;
-        }
-    }
+
 	private String gId;
 	private String gName;
 	private double gNum;

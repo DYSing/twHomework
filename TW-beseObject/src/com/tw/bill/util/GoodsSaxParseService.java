@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.tw.bill.Goods;
-import com.tw.bill.Goods.GoodsType;
+import com.tw.bill.constant.BillConstant.GoodsType;
 
 public class GoodsSaxParseService extends DefaultHandler {
 	  private List<Goods> goodsList = null;  

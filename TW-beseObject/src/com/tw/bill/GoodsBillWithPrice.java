@@ -138,7 +138,7 @@ public class GoodsBillWithPrice {
 	/**
 	 * 最后的凭条显示内容
 	 */
-	public String printMessage() {
+	public String getPrintMessage() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("***<没钱赚商店>购物清单***\n");
 		//先循环显示所有商品列表
