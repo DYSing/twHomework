@@ -5,7 +5,7 @@ target/
 #忽略eclipse的工程文件
 .classpath
 .project
-.metadata/
+#.metadata/
 .settings/
 
 # Windows image file caches
