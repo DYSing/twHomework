@@ -1,0 +1,17 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	deleted:    .metadata/.log
+#
+# Changes not staged for commit:
+#	deleted:    .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+#	deleted:    .metadata/.plugins/org.eclipse.core.runtime/.settings/com.genuitec.eclipse.wizards.prefs
+#	deleted:    .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
+#	deleted:    .metadata/.plugins/org.eclipse.team.cvs.core/.running
+#	modified:   README.md
+#
+

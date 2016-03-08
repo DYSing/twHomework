@@ -1,4 +1,5 @@
 V1.0	2016年3月5日 01:55:13
+基于JDK1.5
 第一个可以运行的版本。
 程序入口TW-payment/com/tw/billcontroller/Main.java。
 输入参数写在getInputString()方法中。
