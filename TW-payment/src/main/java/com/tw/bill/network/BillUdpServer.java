@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.tw.bill.GoodsBill;
 import com.tw.bill.GoodsBillWithPrice;
+import com.tw.bill.GoodsBillWithPriceList;
 import com.tw.bill.RuleInfo;
 import com.tw.bill.util.InputMessageHandle;
 import com.tw.billcontroller.MyCore;
@@ -33,6 +34,7 @@ public class BillUdpServer implements IBillServer{
 			try {
 				socket = new DatagramSocket(num);
 				System.out.println("***服务端使用端口【"+num+"】启动成功！***");
+				break;
 			} catch (SocketException e) {
 				e.printStackTrace();
 				continue;//当初始化失败的时候，继续这个循环
@@ -98,6 +100,8 @@ class ServiceImp implements Runnable{
 			//处理、打印、返回输出内容
 			MyCore mc = MyCore.getMyCore();
 			GoodsBillWithPrice gbwp = mc.action(gb , rulesList);
+//			GoodsBillWithPriceList action = mc.action(gb , rulesList);
+//			packet.setData(action.getFinalOutString().getBytes());
 			packet.setData(gbwp.getPrintMessage().getBytes());
 			BillUdpServer.response(packet);	
 		}else{

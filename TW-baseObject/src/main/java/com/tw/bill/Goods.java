@@ -31,6 +31,17 @@ public class Goods {
 	 * eg:"，节省0.55(元)"
 	 */
 	private String gExtMessageWhenPrint="";
+	
+	/**
+	 * 本商品的优惠金额
+	 */
+	private double gDiscount = 0.00;
+	public double getgDiscount() {
+		return gDiscount;
+	}
+	public void setgDiscount(double gDiscount) {
+		this.gDiscount = gDiscount;
+	}
 	public Goods(){}
 	/**
 	 * 商品构造方法

@@ -43,18 +43,15 @@ public class BaseBillRule extends ExecutionRules{
 	}
 
 	public String printDiscountMessage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void letGoodsToTwoListByDiscount(List<Goods> old,
 			List<Goods> discountGoods, List<Goods> noDiscountGoods) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void setRuls(String[] s) {
-		// TODO Auto-generated method stub
 		
 	}
 

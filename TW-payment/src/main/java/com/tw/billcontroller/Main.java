@@ -27,10 +27,10 @@ public class Main {
 		
 		//1.初始化-加载配置文件
 		//1.1加载商品目录
-		HashMap<String,Goods> allGoodsMap =  b.getGoodsMapBySAX("configs\\AllGoods.xml");
+		HashMap<String,Goods> allGoodsMap =  b.getGoodsMapBySAX("TW-payment\\configs\\AllGoods.xml");
 		InputMessageHandle.setAllGoodsMap(allGoodsMap);
 		//1.2加载优惠规则列表
-		List<RuleInfo> rulesList = b.getRulesListBySAX("configs\\DiscountRules.xml");
+		List<RuleInfo> rulesList = b.getRulesListBySAX("TW-payment\\configs\\DiscountRules.xml");
 		//2.获得输入值
 		//String inputsString = getInputString();
 		//2.1解析输入串，生成商品列表对象
@@ -57,6 +57,7 @@ public class Main {
 			 *客户端拥有相同的列表，初始化客户端的时候逐一尝试
 			 */
 			portList.add(8081);
+			portList.add(8082);
 			bs.ServerInit(portList);
 			bs.ServerStart(rulesList);
 
@@ -65,7 +66,6 @@ public class Main {
 	
 
 //	private static String getInputString() {
-//		// TODO Auto-generated method stub
 //		return "['ITEM000001','ITEM000001','ITEM000001','ITEM000001','ITEM000001','ITEM000001'," +
 //				"'ITEM000003-2','ITEM000005','ITEM000005','ITEM000005']";
 //	}

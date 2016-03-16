@@ -33,7 +33,8 @@ public class MyCore {
 	 * @param rules
 	 */
 	public GoodsBillWithPrice action(GoodsBill bill,List<RuleInfo> rules){
-		
+		//public GoodsBillWithPriceList action(GoodsBill bill,List<RuleInfo> rules){
+//		GoodsBillWithPriceList gbwpl = new GoodsBillWithPriceList();
 		//先对规则排序
 		Collections.sort(rules,new Comparator<RuleInfo>() {
 	          public int compare(RuleInfo o1, RuleInfo o2) {
@@ -51,6 +52,7 @@ public class MyCore {
 			if(gbwp == null){
 				//执行第一条规则时gbwp为null
 				gbwp = br.getPriceByRule(bill.getGoodsList(),gbwp,isLastRuls);
+//				gbwpl.add(gbwp);
 			}else{
 				//从第二条规则开始gbwp非null，将之前处理结果中没有优惠的商品在进行处理
 				List<Goods> noDiscuontGoodsList = gbwp.getGoodsListWithSumPrice();
@@ -58,6 +60,7 @@ public class MyCore {
 				//因为再次对gbwp中noDiscuontGoodsList进行处理，先清空该列表，不然结果会重复
 				gbwp.setGoodsListWithSumPrice(emptyList);
 				br.getPriceByRule(noDiscuontGoodsList,gbwp,isLastRuls);
+//				gbwpl.add(priceByRule);
 			}
 		}
 		printMessage(gbwp);

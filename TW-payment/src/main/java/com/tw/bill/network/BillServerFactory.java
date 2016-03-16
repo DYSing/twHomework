@@ -13,7 +13,6 @@ public class BillServerFactory {
 	}
 
 	public static IBillServer getTcpServer() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

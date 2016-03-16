@@ -1,16 +1,22 @@
 package com.tw.bill.controlle.test;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
+import com.tw.bill.ClubCard;
 import com.tw.bill.Goods;
 import com.tw.bill.GoodsBill;
 import com.tw.bill.GoodsBillWithPrice;
+import com.tw.bill.GoodsBillWithPriceList;
 import com.tw.bill.IBillRule;
 import com.tw.bill.RuleInfo;
+import com.tw.bill.constant.BillConstant.ClubCardType;
 import com.tw.bill.constant.BillConstant.GoodsType;
 import com.tw.bill.rule.BaseBillRule;
 import com.tw.billcontroller.MyCore;
@@ -126,5 +132,79 @@ public class Test1 {
 		rules.add(ruleInfo2);
 		mc.action(bill, rules);
 		System.out.println("=========结束测试折扣规则--买二赠一--LoadJar==========");
+		
+	}
+
+	@Test
+	public void should_getTotalPrice_19point90_when_Two_Goods_are_rule_buy2give1() {
+		//should
+		GoodsBill bill = new GoodsBill();
+		HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
+		Goods g1 = new Goods("ID1","商品1", 3, 9,GoodsType.G);
+		Goods g2 = new Goods("ID2","商品2", 2, 1,GoodsType.G);
+		goodsMap.put(g1.getgId(), g1);
+		goodsMap.put(g2.getgId(), g2);
+		bill.setGoodsMap(goodsMap);
+		//when
+		String[] ruls1 ={"ID1"}; 
+		RuleInfo ruleInfo1 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1",1,ruls1);
+		String[] ruls2 ={"ID2"}; 
+		RuleInfo ruleInfo2 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_AllGoods95",2,ruls2);
+		List<RuleInfo> rules = new ArrayList<RuleInfo>();
+		rules.add(ruleInfo1);
+		rules.add(ruleInfo2);
+		
+		//then
+		MyCore mc = MyCore.getMyCore();
+		GoodsBillWithPrice action = mc.action(bill, rules);
+//		double totalAmount = 0;
+//		for (GoodsBillWithPrice  gbwp : action.getGoodsBillWithPriceList()) {
+//			totalAmount += gbwp.getTotalAmount();
+//		}
+		//result
+		//总计：19.90（元）
+		//Assert.assertTrue(action.getPrintMessage().contains("总计：19.90（元）"));
+//		Assert.assertEquals(totalAmount, 19.90);
+		 
+		 Assert.assertEquals(action.getTotalAmount(), 19.90);
+	}
+	
+	@Test
+	public void should_return_1730_when_provide_a_normal_club_card(){
+		
+		GoodsBill bill = new GoodsBill();
+		HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
+		Goods g1 = new Goods("ID1","商品1", 3, 9,GoodsType.G);
+		Goods g2 = new Goods("ID2","商品2", 2, 1,GoodsType.G);
+		goodsMap.put(g1.getgId(), g1);
+		goodsMap.put(g2.getgId(), g2);
+		bill.setGoodsMap(goodsMap);
+		
+		ClubCard clubCard = new ClubCard(ClubCardType.NORMAL);
+		
+		
+		String[] ruls1 ={"ID1"}; 
+		RuleInfo ruleInfo1 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1",1,ruls1);
+		String[] ruls2 ={"ID2"}; 
+		RuleInfo ruleInfo2 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_AllGoods95",2,ruls2);
+		List<RuleInfo> rules = new ArrayList<RuleInfo>();
+		rules.add(ruleInfo1);
+		rules.add(ruleInfo2);
+		
+		//then
+		MyCore mc = MyCore.getMyCore();
+		
+		ruleInfo1.setClubCard(clubCard);		
+		ruleInfo2.setClubCard(clubCard);		
+		
+//		GoodsBillWithPriceList action = mc.action(bill, rules);
+//		System.out.println(action.getFinalOutString());
+//		Assert.assertTrue(action.getFinalOutString().contains("总计：19.90（元）"));
+		GoodsBillWithPrice action = mc.action(bill, rules);
+		
 	}
 }
+/**
+ * 1.计算商品
+ * 
+ * */

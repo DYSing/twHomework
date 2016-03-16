@@ -54,7 +54,9 @@ public class Ruls_AllGoods95 extends ExecutionRules {
 			goods.setgSumPrice(gSumPrice);
 			totalAmount +=gSumPrice;
 			gbwp.addGoodsToDiscountGoodsListWithSumPrice(goods, gSumPrice, gDiscount);
+			//
 			goods.setgExtMessageWhenPrint("，节省"+BillUtil.getStringByDouble(gDiscount)+"(元)");
+			goods.setgDiscount(gDiscount);
 		}
 	}
 

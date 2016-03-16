@@ -1,7 +1,18 @@
 package com.tw.bill;
 
 public class RuleInfo {
+	
+	/**
+	 * 会员卡信息
+	 */
+	private ClubCard clubCard;
 
+	public ClubCard getClubCard() {
+		return clubCard;
+	}
+	public void setClubCard(ClubCard clubCard) {
+		this.clubCard = clubCard;
+	}
 	private String ruleName;
 	private String jarFileName;
 	private String jarFilePath;
