@@ -90,7 +90,7 @@ public class GoodsBillWithPrice {
 	 * 不含优惠的商品列表
 	 * @return
 	 */
-	public List<Goods> getGoodsListWithSumPrice() {
+	public List<Goods> getNoDiscountGoodsListWithSumPrice() {
 		return noDiscountGoodsListWithSumPrice;
 	}
 

@@ -9,8 +9,8 @@ import com.tw.bill.IBillRule;
 
 public abstract class ExecutionRules implements IBillRule {
 	
-	private List<Goods> noDiscountGoodsList = new ArrayList<Goods>();
-	private List<Goods> discountGoodsList = new ArrayList<Goods>();
+	protected List<Goods> noDiscountGoodsList = new ArrayList<Goods>();
+	protected List<Goods> discountGoodsList = new ArrayList<Goods>();
 	
 	
 	public GoodsBillWithPrice getPriceByRule(List<Goods> bill,GoodsBillWithPrice gbwp,boolean isLastRuls) {
@@ -27,21 +27,21 @@ public abstract class ExecutionRules implements IBillRule {
 	/**
 	 * 处理不含有优惠的商品
 	 * @param noDiscountGoodsList
-	 * @param gbwp 
+	 * @param goodsBillWithPrice
 	 */
-	public void calculationNoDiscountGoods(List<Goods> noDiscountGoodsList, GoodsBillWithPrice gbwp,boolean isLastRuls){
+	public void calculationNoDiscountGoods(List<Goods> noDiscountGoodsList, GoodsBillWithPrice goodsBillWithPrice,boolean isLastRuls){
 		if(isLastRuls){//执行最后一条规则的时候，写入总金额
-			double noDiscounttotalAmount = 0;
+			double noDiscountTotalAmount = 0;
 			for (Goods goods : noDiscountGoodsList) {
 				double gPrice = goods.getgPrice();
 				double gNum = goods.getgNum();
 				double gSumPrice = gPrice*gNum;
 				goods.setgSumPrice(gSumPrice);
-				noDiscounttotalAmount +=gSumPrice;
+				noDiscountTotalAmount +=gSumPrice;
 			}
-		gbwp.addGoodsToNoDiscountGoodsListWithSumPrice(noDiscountGoodsList, noDiscounttotalAmount);
+		goodsBillWithPrice.addGoodsToNoDiscountGoodsListWithSumPrice(noDiscountGoodsList, noDiscountTotalAmount);
 		}else{//不是最后一条规则时不写入总金额，因为下一条规则还会将这个list取出来重新处理
-			gbwp.addGoodsToNoDiscountGoodsListWithSumPrice(noDiscountGoodsList, 0);
+			goodsBillWithPrice.addGoodsToNoDiscountGoodsListWithSumPrice(noDiscountGoodsList, 0);
 		}
 	}
 	
