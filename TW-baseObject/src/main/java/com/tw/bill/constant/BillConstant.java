@@ -9,7 +9,7 @@ public class BillConstant {
         /**
          * 个
          */
-        G("金牌会员");
+        GOLDEN("金牌会员");
         private final String value;
         ClubCardType(String value) {
             this.value = value;

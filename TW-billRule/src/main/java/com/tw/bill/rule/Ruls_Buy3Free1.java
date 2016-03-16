@@ -50,6 +50,7 @@ public class Ruls_Buy3Free1 extends ExecutionRules{
 			goods.setgSumPrice(total1+total2);
 			goods.setgDiscountNum(b);
 			goods.setgDiscount(total3-(total1+total2));
+			goods.setDiscountName(getRuleName());
 			gbwp.addGoodsToDiscountGoodsListWithSumPrice(goods, total1+total2, total3-(total1+total2));
 		}
 		gbwp.setDiscountMessage(printDiscountMessage());

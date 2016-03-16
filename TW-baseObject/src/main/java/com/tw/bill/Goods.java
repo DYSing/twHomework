@@ -23,9 +23,9 @@ public class Goods {
 	 */
 	private GoodsType gType;
 	/**
-	 * 优惠的数量
+	 * 商品享受到优惠的数量
 	 */
-	private int gDiscountNum =0;
+	private double gDiscountNum =0.0;
 	/**
 	 * 在显示打印信息的时候，显示在每行最后的扩展内容
 	 * eg:"，节省0.55(元)"
@@ -110,10 +110,13 @@ public class Goods {
 	public void setgType(GoodsType gType) {
 		this.gType = gType;
 	}
+	public void setgDiscountNum(double gDiscountNum) {
+		this.gDiscountNum = gDiscountNum;
+	}
 	public void setgDiscountNum(int gDiscountNum) {
 		this.gDiscountNum = gDiscountNum;
 	}
-	public int getgDiscountNum() {
+	public double getgDiscountNum() {
 		return gDiscountNum;
 	}
 	public void setgExtMessageWhenPrint(String gExtMessageWhenPrint) {

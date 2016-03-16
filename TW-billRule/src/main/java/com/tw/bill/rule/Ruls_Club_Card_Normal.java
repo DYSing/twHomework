@@ -1,5 +1,6 @@
 package com.tw.bill.rule;
 
+import com.tw.bill.ClubCard;
 import com.tw.bill.Goods;
 import com.tw.bill.GoodsBillWithPrice;
 import com.tw.bill.controlle.ExecutionRules;
@@ -11,6 +12,7 @@ import java.util.List;
  */
 public class Ruls_Club_Card_Normal extends ExecutionRules {
 
+    private ClubCard clubCard = new ClubCard();
     public String[] MYRULS = {};
 
     public void setRuls(String[] s) {
@@ -40,14 +42,32 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
         //letGoodsToTwoListByDiscount(bill, discountGoodsList, noDiscountGoodsList);
         List<Goods> discountGoodsListWithSumPrice = goodsBillWithPrice.getDiscountGoodsListWithSumPrice();
         List<Goods> noDiscountGoodsListWithSumPrice = goodsBillWithPrice.getNoDiscountGoodsListWithSumPrice();
-        calculationNoDiscountGoods(noDiscountGoodsList, goodsBillWithPrice, isLastRuls);
-        calculationDiscountGoods(discountGoodsList, goodsBillWithPrice);
+        calculationNoDiscountGoods(noDiscountGoodsListWithSumPrice, goodsBillWithPrice, isLastRuls);
+        calculationDiscountGoods(discountGoodsListWithSumPrice, goodsBillWithPrice);
         return goodsBillWithPrice;
     }
 
-    public void calculationNoDiscountGoods(List<Goods> noDiscountGoodsList, GoodsBillWithPrice goodsBillWithPrice,boolean isLastRuls){
-        
+    public void calculationNoDiscountGoods(List<Goods> noDiscountGoodsList, GoodsBillWithPrice goodsBillWithPrice, boolean isLastRuls) {
+
+        double discountPoint = 1;
+        if (clubCard != null && clubCard.getDiscount() > 0 && clubCard.getDiscount() <= 1) {
+            discountPoint = clubCard.getDiscount();
+        }
+        for (Goods goods : noDiscountGoodsList) {
+            double gPrice = goods.getgPrice();
+            double gNum = goods.getgNum();
+            double gSumPriceWithoutDiscount = gPrice * gNum;
+            double gSumPriceWithDiscount = gSumPriceWithoutDiscount * discountPoint;
+            goods.setgSumPrice(gSumPriceWithDiscount);
+            goods.setgDiscountNum(gNum);
+            goods.setgDiscount(gSumPriceWithoutDiscount - gSumPriceWithDiscount);
+            goods.setDiscountName(getRuleName());
+            goodsBillWithPrice.addGoodsToDiscountGoodsListWithSumPrice(goods, gSumPriceWithDiscount,
+                    gSumPriceWithoutDiscount - gSumPriceWithDiscount);
+        }
+
     }
+
     public void letGoodsToTwoListByDiscount(List<Goods> goodsList, List<Goods> discountGoods, List<Goods> noDiscountGoods) {
 
     }
@@ -60,4 +80,11 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
         return null;
     }
 
+    public ClubCard getClubCard() {
+        return clubCard;
+    }
+
+    public void setClubCard(ClubCard clubCard) {
+        this.clubCard = clubCard;
+    }
 }
