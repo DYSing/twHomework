@@ -3,6 +3,7 @@ package com.tw.bill.rule;
 import com.tw.bill.ClubCard;
 import com.tw.bill.Goods;
 import com.tw.bill.GoodsBillWithPrice;
+import com.tw.bill.constant.BillConstant;
 import com.tw.bill.controlle.ExecutionRules;
 
 import java.util.List;
@@ -72,7 +73,36 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
 
     }
 
-    public void calculationDiscountGoods(List<Goods> discountGoodsList, GoodsBillWithPrice gbwp) {
+    public void calculationDiscountGoods(List<Goods> discountGoodsList, GoodsBillWithPrice goodsBillWithPrice) {
+
+        double discountPoint = 1;
+        if (clubCard != null && clubCard.getDiscount() > 0 && clubCard.getDiscount() <= 1) {
+            discountPoint = clubCard.getDiscount();
+        }
+        for (Goods goods : noDiscountGoodsList) {
+            double gPrice = goods.getgPrice();
+            double gNum = goods.getgNum();
+            double gSumPriceWithoutDiscount = gPrice * gNum;
+            double gSumPriceWithDiscount = gSumPriceWithoutDiscount * discountPoint;
+
+            /**
+             * 使用会员优惠的情况下的优惠金额
+             */
+            double discountMoneyWithClubCardNormal = gSumPriceWithoutDiscount - gSumPriceWithDiscount;
+            /**
+             * 使用其他优惠规则的情况下的优惠金额
+             */
+            double discountWithRules = goods.getgDiscount();
+            if (discountWithRules > discountMoneyWithClubCardNormal) {
+                continue;
+            }
+            goods.setgSumPrice(gSumPriceWithDiscount);
+            goods.setgDiscountNum(gNum);
+            goods.setgDiscount(discountMoneyWithClubCardNormal);
+            goods.setDiscountName(getRuleName());
+            goodsBillWithPrice.addGoodsToDiscountGoodsListWithSumPrice(goods, gSumPriceWithDiscount,
+                    discountMoneyWithClubCardNormal);
+        }
 
     }
 

@@ -2,11 +2,9 @@ package com.tw.bill.rule;
 
 import com.tw.bill.*;
 import com.tw.bill.constant.BillConstant;
-import org.junit.Assert;
 import org.junit.Before;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,8 +20,6 @@ public class Ruls_Club_Card_NormalTest {
     @Before
     public void init() {
 
-        GoodsBill bill = new GoodsBill();
-        HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
         Goods g1 = new Goods("ID1", "商品1", 3, 9, BillConstant.GoodsType.G);
         Goods g2 = new Goods("ID2", "商品2", 3, 1, BillConstant.GoodsType.G);
         goodsList.add(g1);
