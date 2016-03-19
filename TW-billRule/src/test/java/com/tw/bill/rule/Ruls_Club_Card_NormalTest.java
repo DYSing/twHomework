@@ -60,21 +60,5 @@ public class Ruls_Club_Card_NormalTest {
         // System.out.println(totalAmount);
         assertEquals(totalAmount, 21.00, 0.0001);
     }
-    @org.junit.Test
-    public void should_return_1050_when_provide_a_golden_club_card() {
-        //默认普通会员7折扣
-        //金牌会员折后5折
-        //should
-        ClubCard clubCard = new ClubCard(BillConstant.ClubCardType.GOLDEN);
-        clubCard.setDiscount(0.7);
-        clubCard.setGoldenDiscount(0.5);
-        //when
-        Ruls_Club_Card_Normal ruls_club_card_normal = new Ruls_Club_Card_Normal();
-        ruls_club_card_normal.setClubCard(clubCard);
-        GoodsBillWithPrice priceByRule = ruls_club_card_normal.getPriceByRule(goodsList, goodsBillWithPrice, true);
-        //then
-        double totalAmount = priceByRule.getTotalAmount();
-        // System.out.println(totalAmount);
-        assertEquals(totalAmount, 10.50, 0.0001);
-    }
+
 }

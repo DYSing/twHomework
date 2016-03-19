@@ -3,7 +3,6 @@ package com.tw.bill.rule;
 import com.tw.bill.ClubCard;
 import com.tw.bill.Goods;
 import com.tw.bill.GoodsBillWithPrice;
-import com.tw.bill.constant.BillConstant;
 import com.tw.bill.controlle.ExecutionRules;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * Created by DY'sing on 2016-03-16.
  */
-public class Ruls_Club_Card_Normal extends ExecutionRules {
+public class Ruls_Club_Card_Golden extends ExecutionRules {
 
     private ClubCard clubCard = new ClubCard();
     public String[] MYRULS = {};
@@ -21,11 +20,11 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
     }
 
     public String getRuleName() {
-        return "普通会员-会员优惠";
+        return "会员-金卡优惠";
     }
 
     public String getRuleInfo() {
-        return "普通会员享有75折优惠，如果商品已经有其他优惠，则取比较低的那个";
+        return "在已经享有的优惠基础上在打9折";
     }
 
     /**
@@ -49,10 +48,9 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
         return goodsBillWithPrice;
     }
 
+
     public void calculationNoDiscountGoods(List<Goods> noDiscountGoodsList, GoodsBillWithPrice goodsBillWithPrice, boolean isLastRuls) {
-        if(noDiscountGoodsList == null || noDiscountGoodsList.size() ==0){
-            return;
-        }
+
         double discountPoint = 1;
         if (clubCard != null && clubCard.getDiscount() > 0 && clubCard.getDiscount() <= 1) {
             discountPoint = clubCard.getDiscount();
@@ -70,6 +68,7 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
                     gSumPriceWithoutDiscount - gSumPriceWithDiscount);
         }
 
+
     }
 
     public void letGoodsToTwoListByDiscount(List<Goods> goodsList, List<Goods> discountGoods, List<Goods> noDiscountGoods) {
@@ -78,36 +77,29 @@ public class Ruls_Club_Card_Normal extends ExecutionRules {
 
     public void calculationDiscountGoods(List<Goods> discountGoodsList, GoodsBillWithPrice goodsBillWithPrice) {
 
-        if(discountGoodsList == null || discountGoodsList.size() ==0){
-            return;
-        }
         double discountPoint = 1;
         if (clubCard != null && clubCard.getDiscount() > 0 && clubCard.getDiscount() <= 1) {
             discountPoint = clubCard.getDiscount();
         }
         for (Goods goods : discountGoodsList) {
-            double gPrice = goods.getgPrice();
+
             double gNum = goods.getgNum();
-            double gSumPriceWithoutDiscount = gPrice * gNum;
-            double gSumPriceWithDiscount = gSumPriceWithoutDiscount * discountPoint;
+            double gSumPriceWithoutClubCardGolden = goods.getgSumPrice();
+            double gSumPriceWithClubCardGolden = gSumPriceWithoutClubCardGolden * discountPoint;
 
             /**
              * 使用会员优惠的情况下的优惠金额
              */
-            double discountMoneyWithClubCardNormal = gSumPriceWithoutDiscount - gSumPriceWithDiscount;
-            /**
-             * 使用其他优惠规则的情况下的优惠金额
-             */
-            double discountWithRules = goods.getgDiscount();
-            if (discountWithRules > discountMoneyWithClubCardNormal) {
-                continue;
-            }
-            goods.setgSumPrice(gSumPriceWithDiscount);
+            double discountMoneyWithClubCardGolden = gSumPriceWithoutClubCardGolden - gSumPriceWithClubCardGolden;
+
+            double gSumPriceWithAllDiscount = gSumPriceWithoutClubCardGolden + gSumPriceWithClubCardGolden;
+            goods.setgSumPrice(gSumPriceWithClubCardGolden);
             goods.setgDiscountNum(gNum);
-            goods.setgDiscount(discountMoneyWithClubCardNormal);
-            goods.setDiscountName(getRuleName());
-            goodsBillWithPrice.addGoodsToDiscountGoodsListWithSumPrice(goods, gSumPriceWithDiscount,
-                    discountMoneyWithClubCardNormal);
+
+            goods.setgDiscount(gSumPriceWithoutClubCardGolden+discountMoneyWithClubCardGolden);
+            goods.setDiscountName(goods.getDiscountName()+"-"+getRuleName());
+            goodsBillWithPrice.addGoodsToDiscountGoodsListWithSumPrice(goods, gSumPriceWithClubCardGolden,
+                    gSumPriceWithAllDiscount);
         }
 
     }
