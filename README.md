@@ -53,11 +53,9 @@ getInputString()
 2.打包TW-baseObject成jar并放入TW-payment的rules文件夹中<br/>
 3.根据注释，新增并编辑TW-payment的configs文件夹中的DiscountRules.xml文件里的内容
 
-<<<<<<< HEAD
+
 #####TODO： 
-=======
-#####TO-DO： 
->>>>>>> origin/master
+
 0.增加日志功能<br/>
 1.增加程序运行过程中配置文件更新方法，实现不重启更新配置文件<br/>
 2.增加从控制台获取输入并校验的功能<br/>
