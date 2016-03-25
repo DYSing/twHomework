@@ -22,10 +22,13 @@ import com.tw.billcontroller.MyCore;
 
 public class Test1 {
 
+    private static String jarFileName = "TW-billRule-1.0-SNAPSHOT.jar";
+
 
     /**
      * 通过直接调用进行价格计算
      */
+    @Test
     public void test1() {
         System.out.println("=========开始测试折扣规则--基本规则--直接调用==========");
         BaseBillRule b = new BaseBillRule();
@@ -44,6 +47,7 @@ public class Test1 {
         System.out.println("=========结束测试折扣规则--基本规则-直接调用==========");
     }
 
+    @Test
     public void test2() {
         System.out.println("=========开始测试折扣规则--基本规则-LoadJar==========");
         GoodsBill bill = new GoodsBill();
@@ -65,32 +69,8 @@ public class Test1 {
         System.out.println("=========结束测试折扣规则--基本规则-LoadJar==========");
     }
 
-    /**
-     * 通过直接调用进行价格计算
-     * <p/>
-     * public void test3(){
-     * System.out.println("=========开始测试折扣规则--买二赠一--直接调用==========");
-     * Ruls_Buy3Free1 r = new Ruls_Buy3Free1();
-     * System.out.println(r.getRuleName());
-     * System.out.println(r.getRuleInfo());
-     * GoodsBill bill = new GoodsBill();
-     * HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
-     * Goods g = new Goods("ID1","商品1", 3, 1,Goods.GoodsType.G);
-     * goodsMap.put(g.getgId(), g);
-     * Goods g1 = new Goods("ID2","商品2", 3, 5,Goods.GoodsType.G);
-     * goodsMap.put(g1.getgId(), g1);
-     * Goods g2 = new Goods("ID3","商品3", 3, 5,Goods.GoodsType.G);
-     * goodsMap.put(g2.getgId(), g2);
-     * bill.setGoodsMap(goodsMap);
-     * GoodsBillWithPrice gbwp = r.getPriceByRule(bill.getGoodsList(),null);
-     * System.out.println(gbwp.getTotalAmount());
-     * System.out.println(gbwp.toString());
-     * System.out.println("------开始打印凭条（优惠部分）------");
-     * System.out.println(gbwp.getDiscountMessage());
-     * System.out.println("------结束打印凭条（优惠部分）------");
-     * System.out.println("=========结束测试折扣规则--基本规则-直接调用==========");
-     * }
-     */
+
+    @Test
     public void test4() {
         System.out.println();
         System.out.println();
@@ -104,7 +84,7 @@ public class Test1 {
         bill.setGoodsMap(goodsMap);
         MyCore mc = MyCore.getMyCore();
         String[] ruls = {"ID1", "ID2", "ID5", "ID6"};
-        RuleInfo ruleInfo = new RuleInfo("Ruls_Buy3Free1.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1", 1, ruls);
+        RuleInfo ruleInfo = new RuleInfo(jarFileName, "rules", "com.tw.bill.rule.Ruls_Buy3Free1", 1, ruls);
         List<RuleInfo> rules = new ArrayList<RuleInfo>();
         rules.add(ruleInfo);
         mc.action(bill, rules);
@@ -125,9 +105,9 @@ public class Test1 {
         bill.setGoodsMap(goodsMap);
         MyCore mc = MyCore.getMyCore();
         String[] ruls1 = {"ID1"};
-        RuleInfo ruleInfo1 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1", 1, ruls1);
+        RuleInfo ruleInfo1 = new RuleInfo(jarFileName, "rules", "com.tw.bill.rule.Ruls_Buy3Free1", 1, ruls1);
         String[] ruls2 = {"ID2"};
-        RuleInfo ruleInfo2 = new RuleInfo("Ruls_Buy3Free1And95off.jar", "rules", "com.tw.bill.rule.Ruls_AllGoods95", 2, ruls2);
+        RuleInfo ruleInfo2 = new RuleInfo(jarFileName, "rules", "com.tw.bill.rule.Ruls_AllGoods95", 2, ruls2);
         List<RuleInfo> rules = new ArrayList<RuleInfo>();
         rules.add(ruleInfo1);
         rules.add(ruleInfo2);
@@ -148,9 +128,9 @@ public class Test1 {
         bill.setGoodsMap(goodsMap);
         //when
         String[] ruls_1 = {"ID1"};
-        RuleInfo ruleInfo1 = new RuleInfo("TW-billRule-1.0-SNAPSHOT.jar", "rules", "com.tw.bill.rule.Ruls_Buy3Free1", 1, ruls_1);
+        RuleInfo ruleInfo1 = new RuleInfo(jarFileName, "rules", "com.tw.bill.rule.Ruls_Buy3Free1", 1, ruls_1);
         String[] ruls_2 = {"ID2"};
-        RuleInfo ruleInfo2 = new RuleInfo("TW-billRule-1.0-SNAPSHOT.jar", "rules", "com.tw.bill.rule.Ruls_AllGoods95", 2, ruls_2);
+        RuleInfo ruleInfo2 = new RuleInfo(jarFileName, "rules", "com.tw.bill.rule.Ruls_AllGoods95", 2, ruls_2);
         List<RuleInfo> rules = new ArrayList<RuleInfo>();
         rules.add(ruleInfo1);
         rules.add(ruleInfo2);
@@ -172,7 +152,7 @@ public class Test1 {
 
     //@Test
     public void should_return_1730_when_provide_a_normal_club_card() {
-
+        //TODO 先完成网络功能，下一步完善规则
         GoodsBill bill = new GoodsBill();
         HashMap<String, Goods> goodsMap = new HashMap<String, Goods>();
         Goods g1 = new Goods("ID1", "商品1", 3, 9, GoodsType.G);
