@@ -1,8 +1,16 @@
 # TW-打印小票的小模块
 ---
+## 版本 `V1.1`
+### 提交时间：`2016年3月25日`
+
+#### 合并`add-network-function`到`master`
+
+---
 ## 版本 `V1.0` 
 ## 分支 `add-network-function`
+
 ### 提交时间：`2016年3月8日`
+
 ##### 功能说明：
 
 增加分支`add-network-function`为程序提供网络功能，计划实现基于UDP或TCP协议的服务端程序，接收客户端发送数据并将结果返回的功能。
@@ -45,7 +53,11 @@ getInputString()
 2.打包TW-baseObject成jar并放入TW-payment的rules文件夹中<br/>
 3.根据注释，新增并编辑TW-payment的configs文件夹中的DiscountRules.xml文件里的内容
 
+<<<<<<< HEAD
 #####TODO： 
+=======
+#####TO-DO： 
+>>>>>>> origin/master
 0.增加日志功能<br/>
 1.增加程序运行过程中配置文件更新方法，实现不重启更新配置文件<br/>
 2.增加从控制台获取输入并校验的功能<br/>
