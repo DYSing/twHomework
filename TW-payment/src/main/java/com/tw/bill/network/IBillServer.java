@@ -15,6 +15,6 @@ public interface IBillServer {
 	 * 启动服务，并根据传入的优惠规则处理接收到的消息
 	 * @param rulesList
 	 */
-	public void ServerStart(List<RuleInfo> rulesList);
+	public void ServerStart();
 
 }

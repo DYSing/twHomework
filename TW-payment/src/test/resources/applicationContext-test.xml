@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="ruls_Buy3Free1" class="com.tw.bill.rule.Ruls_Buy3Free1"/>
+    <bean id="baseBillRule" class="com.tw.bill.rule.BaseBillRule"/>
+    <bean id ="ruls_AllGoods95" class="com.tw.bill.rule.Ruls_AllGoods95"/>
+
+
+    <bean id="myCore" class="com.tw.billcontroller.MyCore">
+        <property name="iBillRuleList">
+            <list>
+                <ref bean="baseBillRule"/>
+                <ref bean="ruls_Buy3Free1"/>
+
+            </list>
+        </property>
+    </bean>
+
+</beans>

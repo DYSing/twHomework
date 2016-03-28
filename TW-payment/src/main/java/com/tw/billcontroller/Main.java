@@ -29,8 +29,8 @@ public class Main {
 		//1.1加载商品目录
 		HashMap<String,Goods> allGoodsMap =  b.getGoodsMapBySAX("TW-payment\\configs\\AllGoods.xml");
 		InputMessageHandle.setAllGoodsMap(allGoodsMap);
-		//1.2加载优惠规则列表
-		List<RuleInfo> rulesList = b.getRulesListBySAX("TW-payment\\configs\\DiscountRules.xml");
+		//1.2加载优惠规则列表 2016年3月27日 21:45:04 改为Spring注入，不需加载此列表
+		//List<RuleInfo> rulesList = b.getRulesListBySAX("TW-payment\\configs\\DiscountRules.xml");
 		//2.获得输入值
 		//String inputsString = getInputString();
 		//2.1解析输入串，生成商品列表对象
@@ -59,7 +59,7 @@ public class Main {
 			portList.add(8081);
 			portList.add(8082);
 			bs.ServerInit(portList);
-			bs.ServerStart(rulesList);
+			bs.ServerStart();
 
 	}
 

@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.util.Arrays;
 import java.util.List;
 
 import com.tw.bill.GoodsBill;
 import com.tw.bill.GoodsBillWithPrice;
-import com.tw.bill.GoodsBillWithPriceList;
-import com.tw.bill.RuleInfo;
 import com.tw.bill.util.InputMessageHandle;
 import com.tw.billcontroller.MyCore;
 
@@ -49,10 +46,8 @@ public class BillUdpServer implements IBillServer {
 
     /**
      * 启动服务
-     *
-     * @param rulesList 执行的优惠规则
      */
-    public void ServerStart(List<RuleInfo> rulesList) {
+    public void ServerStart() {
         //创建一个data数组用于存放接收的信息
         byte[] data = new byte[1024];
         DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -61,7 +56,7 @@ public class BillUdpServer implements IBillServer {
                 socket.receive(packet);
                 //启动一个新线程处理消息
                 //TODO 下一步考虑加入线程池
-                new Thread(new ServiceImp(packet, rulesList)).start();
+                new Thread(new ServiceImp(packet)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,11 +80,9 @@ public class BillUdpServer implements IBillServer {
 class ServiceImp implements Runnable {
 
     private DatagramPacket packet = null;
-    List<RuleInfo> rulesList = null;
 
-    public ServiceImp(DatagramPacket packet, List<RuleInfo> rulesList) {
+    public ServiceImp(DatagramPacket packet) {
         this.packet = packet;
-        this.rulesList = rulesList;
     }
 
     public void run() {
@@ -104,7 +97,7 @@ class ServiceImp implements Runnable {
             GoodsBill gb = InputMessageHandle.getGoodsBill(receiveMessage);
             //处理、打印、返回输出内容
             MyCore mc = MyCore.getMyCore();
-            GoodsBillWithPrice gbwp = mc.action(gb, rulesList);
+            GoodsBillWithPrice gbwp = mc.action(gb);
 //			GoodsBillWithPriceList action = mc.action(gb , rulesList);
 //			packet.setData(action.getFinalOutString().getBytes());
             packet.setData(gbwp.getPrintMessage().getBytes());

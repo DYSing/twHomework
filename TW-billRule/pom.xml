@@ -6,7 +6,7 @@
 
     <groupId>com.tw.homework.billRule</groupId>
     <artifactId>TW-billRule</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -20,6 +20,10 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.2.5.RELEASE</version>
+        </dependency>
     </dependencies>
-    
 </project>

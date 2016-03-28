@@ -37,15 +37,5 @@ public class BillUtil {
 		}
 		return goodsMap;
 	}
-	
-	public List<RuleInfo> getRulesListBySAX(String uri){
-		RulesSaxParseService sax = new RulesSaxParseService();
-		try {
-			return sax.getRules(uri);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
+
 }
