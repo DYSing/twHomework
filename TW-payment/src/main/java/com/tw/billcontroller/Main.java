@@ -11,7 +11,8 @@ import com.tw.bill.network.BillServerFactory;
 import com.tw.bill.network.IBillServer;
 import com.tw.bill.util.BillUtil;
 import com.tw.bill.util.InputMessageHandle;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 public class Main {
@@ -39,12 +40,16 @@ public class Main {
 		//MyCore mc = new MyCore();
 //		mc.action(gb , rulesList);
 
-		AGREEMENT agreementVersion = AGREEMENT.UDP;//TODO 这里直接指定UDP，下一步从配置文件读取
+		ApplicationContext context =
+				new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        IBillServer billUdpServer = (IBillServer)context.getBean("billUdpServer");
+
+        AGREEMENT agreementVersion = AGREEMENT.UDP;//TODO 这里直接指定UDP，下一步从配置文件读取
 		
 		IBillServer bs;
 		switch(agreementVersion){
 		case UDP:
-			bs= BillServerFactory.getUdpServer();break;
+			bs= billUdpServer;break;
 		case TCP:
 			bs= BillServerFactory.getTcpServer();break;
 		default:

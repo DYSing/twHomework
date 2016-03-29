@@ -10,6 +10,8 @@ import com.tw.bill.GoodsBill;
 import com.tw.bill.GoodsBillWithPrice;
 import com.tw.bill.util.InputMessageHandle;
 import com.tw.billcontroller.MyCore;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 /**
  * 程序设计上是内网使用，考虑到效率先使用UDP协议
@@ -18,6 +20,11 @@ import com.tw.billcontroller.MyCore;
  */
 public class BillUdpServer implements IBillServer {
 
+    public void setMyCore(MyCore myCore) {
+        this.myCore = myCore;
+    }
+
+    MyCore myCore;
     /**
      * 创建服务端socket对象，在ServerInit方法中根据端口号初始化
      */
@@ -56,7 +63,7 @@ public class BillUdpServer implements IBillServer {
                 socket.receive(packet);
                 //启动一个新线程处理消息
                 //TODO 下一步考虑加入线程池
-                new Thread(new ServiceImp(packet)).start();
+                new Thread(new ServiceImp(packet,myCore)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,10 +86,14 @@ public class BillUdpServer implements IBillServer {
 
 class ServiceImp implements Runnable {
 
+
+    private MyCore myCore;
+
     private DatagramPacket packet = null;
 
-    public ServiceImp(DatagramPacket packet) {
+    public ServiceImp(DatagramPacket packet,MyCore myCore) {
         this.packet = packet;
+        this.myCore = myCore;
     }
 
     public void run() {
@@ -90,15 +101,17 @@ class ServiceImp implements Runnable {
         String receiveMessage = new String(packet.getData(), 0, packet.getLength());
         //TODO 添加log4j以后在这里输出一下日志
         System.out.println("服务端接收到消息：" + receiveMessage);
-        System.out.println(packet.getAddress().getHostAddress() + "：" + packet.getPort() + "：" + receiveMessage);
+
+//        System.out.println("端口：" + packet.getPort() + "：" );
+//        System.out.println("地址："+packet.getAddress());
+//        System.out.println("主机："+packet.getAddress().getHostAddress());
         //客户端发送特定字符串，用于确认服务端使用哪个端口
         if (!"TEST_SERVER_ALIVE".equalsIgnoreCase(receiveMessage)) {
             //解析输入串，生成商品列表对象
             GoodsBill gb = InputMessageHandle.getGoodsBill(receiveMessage);
             //处理、打印、返回输出内容
-            MyCore mc = MyCore.getMyCore();
-            GoodsBillWithPrice gbwp = mc.action(gb);
-//			GoodsBillWithPriceList action = mc.action(gb , rulesList);
+            GoodsBillWithPrice gbwp = myCore.action(gb);
+//			GoodsBillWithPriceList action = myCore.action(gb , rulesList);
 //			packet.setData(action.getFinalOutString().getBytes());
             packet.setData(gbwp.getPrintMessage().getBytes());
             BillUdpServer.response(packet);

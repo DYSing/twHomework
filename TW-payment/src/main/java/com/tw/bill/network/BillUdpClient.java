@@ -15,7 +15,7 @@ public class BillUdpClient {
 		 * 向服务器端发送数据
 		 */
         //1.定义服务器的地址、端口号、数据//TODO 下一步从配置文件中读取服务器地址
-        InetAddress address= InetAddress.getByName("localhost");
+        InetAddress address= InetAddress.getLocalHost();
         int port=8081;
         byte[] data=getInputString().getBytes();
         //2.创建数据报，包含发送的数据信息
@@ -24,7 +24,7 @@ public class BillUdpClient {
         DatagramSocket socket=new DatagramSocket();
         //4.向服务器端发送数据报
         socket.send(packet);
-
+            System.out.println("客户端接发送的凭条信息："+socket.getPort()+":"+socket.getRemoteSocketAddress());
 		/*
 		 * 接收服务器端响应的数据
 		 */

@@ -20,4 +20,8 @@
         </property>
     </bean>
 
+    <bean id="billUdpServer" class="com.tw.bill.network.BillUdpServer">
+        <property name="myCore" ref="myCore"/>
+    </bean>
+
 </beans>

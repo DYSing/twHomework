@@ -122,6 +122,10 @@ public class Goods {
 	public void setgExtMessageWhenPrint(String gExtMessageWhenPrint) {
 		this.gExtMessageWhenPrint = gExtMessageWhenPrint;
 	}
+	/**
+	 * 在显示打印信息的时候，显示在每行最后的扩展内容
+	 * eg:"，节省0.55(元)"
+	 */
 	public String getgExtMessageWhenPrint() {
 		return gExtMessageWhenPrint;
 	}

@@ -14,16 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class MyCore {
 
-    private static MyCore mc;
-
-    private MyCore() {
-    }
-
-    public static MyCore getMyCore() {
-        if (mc == null) {
-            mc = new MyCore();
-        }
-        return mc;
+    public MyCore() {
     }
 
     /**
