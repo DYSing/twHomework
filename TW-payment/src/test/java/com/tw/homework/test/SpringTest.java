@@ -5,7 +5,7 @@ import com.tw.bill.IBillRule;
 import com.tw.bill.rule.BaseBillRule;
 //import com.tw.bill.rule.Ruls_Buy3Free1;
 import com.tw.bill.rule.Ruls_Buy3Free1;
-import com.tw.billcontroller.MyCore;
+import com.tw.controller.MyCore;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

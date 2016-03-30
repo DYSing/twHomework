@@ -8,10 +8,10 @@
 
     <bean id="ruls_Buy3Free1" class="com.tw.bill.rule.Ruls_Buy3Free1"/>
     <bean id="baseBillRule" class="com.tw.bill.rule.BaseBillRule"/>
-    <bean id ="ruls_AllGoods95" class="com.tw.bill.rule.Ruls_AllGoods95"/>
+    <bean id="ruls_AllGoods95" class="com.tw.bill.rule.Ruls_AllGoods95"/>
 
 
-    <bean id="myCore" class="com.tw.billcontroller.MyCore">
+    <bean id="myCore" class="com.tw.controller.MyCore" scope="prototype">
         <property name="iBillRuleList">
             <list>
                 <ref bean="ruls_Buy3Free1"/>
@@ -20,8 +20,18 @@
         </property>
     </bean>
 
-    <bean id="billUdpServer" class="com.tw.bill.network.BillUdpServer">
+    <bean id="printService" class="com.tw.bill.util.PrintService"/>
+
+    <bean id="billUdpServer" class="com.tw.bill.network.server.BillUdpServer">
         <property name="myCore" ref="myCore"/>
+        <property name="iPrintService" ref="printService"/>
     </bean>
 
+    <bean id="tcpBillServer" class="com.tw.bill.network.server.BillTcpServer">
+        <property name="iPrintService" ref="printService"/>
+        <property name="myCore" ref="myCore"/>
+    </bean>
+    <bean id="mainController" class="com.tw.controller.MainController">
+        <property name="iBillServer" ref="tcpBillServer"/>
+    </bean>
 </beans>

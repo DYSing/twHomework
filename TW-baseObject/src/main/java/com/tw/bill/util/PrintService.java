@@ -11,14 +11,14 @@ import java.util.List;
  * 用于构造打印凭条的方法
  * Created by DY'sing on 2016-03-28.
  */
-public class PrintService {
+public class PrintService implements  IPrintService {
 
-    public static String NEXT_LINE = "\r\n";//换行符
-    public static String BILL_TITLE = "***<没钱赚商店>购物清单***";//标题
-    public static String SPLIT_LINE = "-------------------------";//行分割线
-    public static String SPLIT_WORLD = "    ";//行内分隔符
+    private static String NEXT_LINE = "\r\n";//换行符
+    private static String BILL_TITLE = "***<没钱赚商店>购物清单***";//标题
+    private static String SPLIT_LINE = "-------------------------";//行分割线
+    private static String SPLIT_WORLD = "    ";//行内分隔符
 
-    public List<String> getNormalDiscountRuleList() {
+    private List<String> getNormalDiscountRuleList() {
         return normalDiscountRuleList;
     }
 
@@ -26,7 +26,7 @@ public class PrintService {
         this.normalDiscountRuleList = normalDiscountRuleList;
     }
 
-    protected List<String> normalDiscountRuleList;
+    private List<String> normalDiscountRuleList;
 
     public String getPrintMessage(GoodsBillWithPrice goodsBillWithPrice) {
 
@@ -69,7 +69,7 @@ public class PrintService {
         }
         stringBuilder.append(SPLIT_LINE).append(NEXT_LINE);
         //打印合计金额
-        stringBuilder.append("合计：").append(SPLIT_WORLD).append(goodsBillWithPrice.getTotalAmount()).append(NEXT_LINE);;
+        stringBuilder.append("合计：").append(SPLIT_WORLD).append(goodsBillWithPrice.getTotalAmount()).append(NEXT_LINE);
         //打印便签底部
         stringBuilder.append(SPLIT_LINE).append(NEXT_LINE);
         stringBuilder.append("谢谢惠顾，真的没挣钱啊");
@@ -83,7 +83,7 @@ public class PrintService {
      * @param normalGoodsArrayList          普通优惠
      * @param specialGoodsArrayList         特殊优惠
      */
-    private void LetDiscountGoodsListToTwoList(List<Goods> discountGoodsListWithSumPrice, List<Goods> normalGoodsArrayList, List<Goods> specialGoodsArrayList) {
+    public void LetDiscountGoodsListToTwoList(List<Goods> discountGoodsListWithSumPrice, List<Goods> normalGoodsArrayList, List<Goods> specialGoodsArrayList) {
 
         for (Goods good : discountGoodsListWithSumPrice) {
             if (isNormalDiscount(good.getDiscountName())) {
@@ -100,7 +100,7 @@ public class PrintService {
      * @param discountName 优惠名称
      * @return 一般优惠时返回True
      */
-    private  boolean isNormalDiscount(String discountName) {
+    public boolean isNormalDiscount(String discountName) {
         List<String> normalDiscountRuleList = this.getNormalDiscountRuleList();
         if(normalDiscountRuleList == null || normalDiscountRuleList.size() == 0){
             return false;

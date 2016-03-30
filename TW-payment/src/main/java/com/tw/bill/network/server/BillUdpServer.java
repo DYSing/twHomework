@@ -1,16 +1,17 @@
-package com.tw.bill.network;
+package com.tw.bill.network.server;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.List;
 
 import com.tw.bill.GoodsBill;
 import com.tw.bill.GoodsBillWithPrice;
+import com.tw.bill.util.IPrintService;
 import com.tw.bill.util.InputMessageHandle;
-import com.tw.billcontroller.MyCore;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tw.controller.MyCore;
 
 
 /**
@@ -25,17 +26,23 @@ public class BillUdpServer implements IBillServer {
     }
 
     MyCore myCore;
+
+    public void setiPrintService(IPrintService iPrintService) {
+        this.iPrintService = iPrintService;
+    }
+
+    IPrintService iPrintService;
     /**
      * 创建服务端socket对象，在ServerInit方法中根据端口号初始化
      */
     static DatagramSocket socket = null;
 
+
+
     /**
-     * 根据传入端口号初始化一个服务端监听
-     *
-     * @param portNum
+     * 启动服务
      */
-    public void ServerInit(List<Integer> portNum) {
+    public void ServerStart(List<Integer> portNum) {
         for (Integer num : portNum) {
             try {
                 socket = new DatagramSocket(num);
@@ -49,12 +56,7 @@ public class BillUdpServer implements IBillServer {
         if (socket == null) {
             throw new RuntimeException("服务端初始化失败，端口被占用" + portNum.toString());
         }
-    }
 
-    /**
-     * 启动服务
-     */
-    public void ServerStart() {
         //创建一个data数组用于存放接收的信息
         byte[] data = new byte[1024];
         DatagramPacket packet = new DatagramPacket(data, data.length);
@@ -63,7 +65,7 @@ public class BillUdpServer implements IBillServer {
                 socket.receive(packet);
                 //启动一个新线程处理消息
                 //TODO 下一步考虑加入线程池
-                new Thread(new ServiceImp(packet,myCore)).start();
+                new Thread(new ServiceImp(packet, myCore, iPrintService)).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,12 +90,14 @@ class ServiceImp implements Runnable {
 
 
     private MyCore myCore;
+    private IPrintService iPrintService;
 
     private DatagramPacket packet = null;
 
-    public ServiceImp(DatagramPacket packet,MyCore myCore) {
+    public ServiceImp(DatagramPacket packet, MyCore myCore, IPrintService iPrintService) {
         this.packet = packet;
         this.myCore = myCore;
+        this.iPrintService = iPrintService;
     }
 
     public void run() {
@@ -102,19 +106,29 @@ class ServiceImp implements Runnable {
         //TODO 添加log4j以后在这里输出一下日志
         System.out.println("服务端接收到消息：" + receiveMessage);
 
-//        System.out.println("端口：" + packet.getPort() + "：" );
-//        System.out.println("地址："+packet.getAddress());
-//        System.out.println("主机："+packet.getAddress().getHostAddress());
         //客户端发送特定字符串，用于确认服务端使用哪个端口
         if (!"TEST_SERVER_ALIVE".equalsIgnoreCase(receiveMessage)) {
-            //解析输入串，生成商品列表对象
+
             GoodsBill gb = InputMessageHandle.getGoodsBill(receiveMessage);
             //处理、打印、返回输出内容
-            GoodsBillWithPrice gbwp = myCore.action(gb);
-//			GoodsBillWithPriceList action = myCore.action(gb , rulesList);
-//			packet.setData(action.getFinalOutString().getBytes());
-            packet.setData(gbwp.getPrintMessage().getBytes());
-            BillUdpServer.response(packet);
+            GoodsBillWithPrice goodsBillWithPrice = myCore.action(gb);
+            byte[] sendBuf = goodsBillWithPrice.getPrintMessage().getBytes();
+            DatagramSocket responseSocket =null;
+            try {
+                int port = packet.getPort();
+                InetAddress address = packet.getAddress();
+                DatagramPacket sendPacket
+                        = new DatagramPacket(sendBuf, sendBuf.length , address , port );
+                responseSocket = new DatagramSocket();
+                responseSocket.send(sendPacket);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }finally {
+                if(responseSocket != null) responseSocket.close();
+            }
+//            BillUdpServer.response(packet);
         } else {
             packet.setData("SERVER_OK".getBytes());
             BillUdpServer.response(packet);

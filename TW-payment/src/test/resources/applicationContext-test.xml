@@ -11,7 +11,7 @@
     <bean id ="ruls_AllGoods95" class="com.tw.bill.rule.Ruls_AllGoods95"/>
 
 
-    <bean id="myCore" class="com.tw.billcontroller.MyCore">
+    <bean id="myCore" class="com.tw.controller.MyCore">
         <property name="iBillRuleList">
             <list>
                 <ref bean="baseBillRule"/>

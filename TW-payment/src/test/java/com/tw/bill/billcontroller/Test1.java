@@ -1,10 +1,6 @@
 package com.tw.bill.billcontroller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -16,7 +12,7 @@ import com.tw.bill.GoodsBillWithPrice;
 import com.tw.bill.constant.BillConstant.ClubCardType;
 import com.tw.bill.constant.BillConstant.GoodsType;
 
-import com.tw.billcontroller.MyCore;
+import com.tw.controller.MyCore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
